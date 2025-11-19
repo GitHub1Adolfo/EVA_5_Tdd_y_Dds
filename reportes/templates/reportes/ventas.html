@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Reporte de Ventas{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center mb-3">📊 Reporte de Ventas</h2>
+
+  <h5 class="text-end mb-3">Total general: ${{ total_ventas }}</h5>
+
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad Vendida</th>
+        <th>Monto Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in ventas_por_producto %}
+      <tr>
+        <td>{{ v.producto__nombre }}</td>
+        <td>{{ v.total_vendido }}</td>
+        <td>${{ v.monto_total }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="3" class="text-center">No hay ventas registradas.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="text-center">
+    <a href="{% url 'reportes_dashboard' %}" class="btn btn-secondary">Volver al Dashboard</a>
+  </div>
+</div>
+{% endblock %}

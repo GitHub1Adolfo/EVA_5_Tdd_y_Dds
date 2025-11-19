@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard de Reportes{% endblock %}
+{% block content %}
+<div class="container mt-5 text-center">
+  <h2 class="mb-4">📈 Resumen General del Sistema</h2>
+
+  <div class="row justify-content-center">
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3">
+        <h4>Productos registrados</h4>
+        <p class="display-6">{{ total_productos }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3">
+        <h4>Ventas totales</h4>
+        <p class="display-6">${{ total_ventas }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3">
+        <h4>Unidades vendidas</h4>
+        <p class="display-6">{{ total_vendidos }}</p>
+      </div>
+    </div>
+  </div>
+
+  <a href="{% url 'reportes_ventas' %}" class="btn btn-primary mt-4">Ver detalle de ventas</a>
+  <!--<a href="{% url 'reportes_stock' %}" class="btn btn-warning mt-4">Ver stock bajo</a>-->
+</div>
+{% endblock %}

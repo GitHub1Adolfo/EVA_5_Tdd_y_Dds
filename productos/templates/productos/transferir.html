@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Transferir Producto{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center text-primary mb-3">🚚 Transferir Producto entre Sucursales</h2>
+  <form method="POST" class="card p-4 shadow">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Producto</label>
+      <select name="producto" class="form-select" required>
+          <option value="">-- Seleccione --</option>
+          {% for p in productos %}
+           <option value="{{ p.id }}" {% if producto_preseleccionado == p.id|stringformat:"s" %}selected{% endif %}>{{ p.nombre }}</option>
+           {% endfor %}
+       </select>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Sucursal Origen</label>
+        <select name="sucursal_origen" class="form-select" required>
+            <option value="">-- Seleccione --</option>
+            {% for s in sucursales %}
+                <option value="{{ s.id }}" {% if origen_preseleccionado == s.id|stringformat:"s" %}selected{% endif %}>{{ s.nombre }}</option>
+            {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Sucursal Destino</label>
+        <select name="sucursal_destino" class="form-select" required>
+            <option value="">-- Seleccione --</option>
+            {% for s in sucursales %}
+                <option value="{{ s.id }}">{{ s.nombre }}</option>
+            {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Cantidad</label>
+      <input type="number" name="cantidad" class="form-control" min="1" required>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-primary">Transferir</button>
+      <a href="{% url 'listar_transferencias' %}" class="btn btn-secondary">Ver Transferencias</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

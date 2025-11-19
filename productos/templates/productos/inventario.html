@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Inventario{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center text-primary mb-4">📦 Inventario de Productos</h2>
+
+  {% if user.rol == 'administrador' %}
+    <div class="text-end mb-3">
+      <a href="{% url 'agregar_producto' %}" class="btn btn-success">➕ Agregar Producto</a>
+    </div>
+  {% endif %}
+
+  <table class="table table-striped align-middle">
+    <thead class="table-dark">
+      <tr>
+        {% if user.rol == 'administrador' %}
+          <th>Sucursal</th>
+        {% endif %}
+        <th>Producto</th>
+        <th>Categoría</th>
+        <th>Stock</th>
+        <th>Stock Mínimo</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in productos %}
+      <tr>
+        {% if user.rol == 'administrador' %}
+          <td>{{ i.sucursal.nombre }}</td>
+        {% endif %}
+        <td>{{ i.producto.nombre }}</td>
+        <td>{{ i.producto.categoria }}</td>
+        <td {% if i.stock <= i.producto.stock_minimo %}class="text-danger fw-bold"{% endif %}>{{ i.stock }}</td>
+        <td>{{ i.producto.stock_minimo }}</td>
+        <td>${{ i.producto.precio }}</td>
+        <td>
+          {% if user.rol == 'administrador' %}
+            <a href="{% url 'editar_producto' i.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+            <a href="{% url 'transferir_producto' %}" class="btn btn-info btn-sm">🔄 Transferir</a>
+      
+
+          {% elif user.rol == 'vendedor' %}
+            <a href="#" class="btn btn-secondary btn-sm disabled">Solo lectura</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="7" class="text-center">No hay productos registrados.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if user.rol == 'vendedor' and transferencias %}
+  <hr class="my-4">
+  <h3 class="text-center text-warning mb-3">📦 Transferencias Pendientes</h3>
+  <table class="table table-bordered align-middle">
+    <thead class="table-warning">
+      <tr>
+        <th>Producto</th>
+        <th>Desde</th>
+        <th>Cantidad</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in transferencias %}
+      <tr>
+        <td>{{ t.producto.nombre }}</td>
+        <td>{{ t.sucursal_origen.nombre }}</td>
+        <td>{{ t.cantidad }}</td>
+        <td>{{ t.estado|title }}</td>
+        <td>
+          <a href="{% url 'actualizar_transferencia' t.id 'aceptar' %}" class="btn btn-success btn-sm">✅ Aceptar</a>
+          <a href="{% url 'actualizar_transferencia' t.id 'rechazar' %}" class="btn btn-danger btn-sm">❌ Rechazar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+</div>
+{% endblock %}

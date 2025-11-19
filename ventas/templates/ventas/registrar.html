@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Registrar Venta{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center mb-3">🧾 Registrar Venta</h2>
+
+  {% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label>Producto</label>
+      <select name="producto" class="form-select" required>
+        <option value="">-- Seleccione --</option>
+        {% for i in productos %}
+          <option value="{{ i.id }}">
+            {{ i.producto.nombre }} (Stock: {{ i.stock }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Cantidad</label>
+      <input type="number" name="cantidad" class="form-control" min="1" required>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">Registrar venta</button>
+      <a href="{% url 'lista_ventas' %}" class="btn btn-secondary">Ver ventas</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

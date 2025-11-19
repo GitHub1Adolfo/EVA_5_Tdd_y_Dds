@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Alertas de Stock{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center text-danger mb-4">⚠️ Alertas de Stock Bajo - {{ user.sucursal.nombre }}</h2>
+
+  <table class="table table-striped table-bordered text-center align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Producto</th>
+        <th>Categoría</th>
+        <th>Stock Actual</th>
+        <th>Stock Mínimo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in productos %}
+      <tr>
+        <td>{{ i.producto.nombre }}</td>
+        <td>{{ i.producto.categoria }}</td>
+        <td class="text-danger fw-bold">{{ i.stock }}</td>
+        <td>{{ i.producto.stock_minimo }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4" class="text-center">No hay productos con stock bajo en esta sucursal.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
