@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Editar Usuario{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center mb-3">✏️ Editar usuario</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label>Nombre de usuario</label>
+      <input type="text" name="username" value="{{ user.username }}" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Rol</label>
+      <select name="rol" class="form-select">
+        <option value="vendedor" {% if user.rol == 'vendedor' %}selected{% endif %}>Vendedor</option>
+        <option value="administrador" {% if user.rol == 'administrador' %}selected{% endif %}>Administrador</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Sucursal</label>
+      <select name="sucursal" class="form-select">
+        {% for s in sucursales %}
+          <option value="{{ s.id }}" {% if user.sucursal.id == s.id %}selected{% endif %}>{{ s.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Guardar</button>
+      <a href="{% url 'lista_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

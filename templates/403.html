@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Acceso prohibido{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+  <h1 class="display-3 text-warning">403</h1>
+  <h3 class="mb-3">Acceso prohibido 🔒</h3>
+  <p>No tienes permisos para acceder a esta sección del sistema.</p>
+
+  <div class="mt-4">
+    {% if user.is_authenticated %}
+      {% if user.rol == 'administrador' %}
+        <a href="{% url 'dashboard_admin' %}" class="btn btn-primary">Volver al Dashboard</a>
+      {% elif user.rol == 'vendedor' %}
+        <a href="{% url 'dashboard_vendedor' %}" class="btn btn-primary">Volver al Dashboard</a>
+      {% endif %}
+    {% else %}
+      <a href="{% url 'login' %}" class="btn btn-secondary">Iniciar sesión</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

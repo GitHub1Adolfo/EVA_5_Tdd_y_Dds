@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Página no encontrada{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+  <h1 class="display-3 text-danger">404</h1>
+  <h3 class="mb-3">¡Ups! Página no encontrada 😕</h3>
+  <p>La página que intentas visitar no existe o fue movida.</p>
+
+  <div class="mt-4">
+    <a href="{% url 'login' %}" class="btn btn-primary">Ir al inicio de sesión</a>
+    {% if user.is_authenticated %}
+      {% if user.rol == 'administrador' %}
+        <a href="{% url 'dashboard_admin' %}" class="btn btn-secondary">Ir al Dashboard</a>
+      {% elif user.rol == 'vendedor' %}
+        <a href="{% url 'dashboard_vendedor' %}" class="btn btn-secondary">Ir al Dashboard</a>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5 text-center">
+  <h2 class="text-danger">Acceso no permitido 🚫</h2>
+  <p>No tienes los permisos necesarios para ver esta página.</p>
+  <a href="{% url 'login' %}" class="btn btn-mostaza mt-3">Volver al inicio</a>
+</div>
+{% endblock %}

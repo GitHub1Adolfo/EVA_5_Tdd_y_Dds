@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Agregar Usuario{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center mb-3">➕ Agregar nuevo usuario</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label>Nombre de usuario</label>
+      <input type="text" name="username" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Contraseña</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Rol</label>
+      <select name="rol" class="form-select" required>
+        <option value="vendedor">Vendedor</option>
+        <option value="administrador">Administrador</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Sucursal</label>
+      <select name="sucursal" class="form-select">
+        <option value="">-- Seleccione --</option>
+        {% for s in sucursales %}
+          <option value="{{ s.id }}">{{ s.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">Guardar</button>
+      <a href="{% url 'lista_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

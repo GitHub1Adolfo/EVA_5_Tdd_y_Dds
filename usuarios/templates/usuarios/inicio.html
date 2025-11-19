@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Bienvenido - Botillería Don Pepe{% endblock %}
+{% block content %}
+<style>
+    body {
+  background: linear-gradient(135deg, #4E342E 0%, #FFCA28 100%);
+  color: white;
+        }
+    .logo {
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+    .subtitulo {
+        color: #fff3cd;
+        }
+  .splash {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    flex-direction: column;
+    animation: fadeOut 1s ease-out 3s forwards;
+  }
+  .logo {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--color-cafe);
+    margin-bottom: 1rem;
+  }
+  .subtitulo {
+    color: var(--color-mostaza);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: var(--color-mostaza);
+  }
+
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+</style>
+
+<div class="splash">
+  <div class="logo">🍾 Botillería Don Pepe</div>
+  <div class="subtitulo">Cargando tu panel...</div>
+  <div class="spinner-border" role="status"></div>
+</div>
+
+<script>
+  // Espera 3 segundos antes de redirigir al dashboard según el rol
+  setTimeout(function() {
+    {% if user.rol == 'administrador' %}
+      window.location.href = "{% url 'dashboard_admin' %}";
+    {% elif user.rol == 'vendedor' %}
+      window.location.href = "{% url 'dashboard_vendedor' %}";
+    {% else %}
+      window.location.href = "{% url 'login' %}";
+    {% endif %}
+  }, 3000);
+</script>
+{% endblock %}
